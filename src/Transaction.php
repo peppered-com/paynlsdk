@@ -37,7 +37,7 @@ class Transaction
     /** @var string Payment fees */
     const PRODUCT_TYPE_PAYMENT = 'PAYMENT';
     /** @var string An extra order line added by PAY. if the total amount does not match the total of the product lines */
-    const PRODUCT_TYPE_ROUNDING = 'ROUNDING';   
+    const PRODUCT_TYPE_ROUNDING = 'ROUNDING';
     /** @var string Costs for shipment */
     const PRODUCT_TYPE_SHIPPING = 'SHIPPING';
     /** @var string Ticket for events, festivals or theaters */
@@ -244,6 +244,9 @@ class Transaction
         if (isset($options['transferValue'])) {
             $api->setTransferValue($options['transferValue']);
         }
+        if (isset($options['transferData'])) {
+            $api->setTransferData($options['transferData']);
+        }
 
         $result = $api->doRequest();
 
@@ -313,23 +316,23 @@ class Transaction
      * @return Result\Details
      * @throws Error\Api
      * @throws Error\Error
-     * @throws Error\Required\ApiToken    
+     * @throws Error\Required\ApiToken
      */
     public static function details(
         $transactionId,
         $entranceCode = null
     )
     {
-        
+
         $api = new Api\Details();
-        
+
         $api->setTransactionId($transactionId);
-      
+
         if ($entranceCode !== null) {
             $api->setEntranceCode($entranceCode);
-        }        
-        $result = $api->doRequest();       
-        
+        }
+        $result = $api->doRequest();
+
         return new Result\Details($result);
     }
 
@@ -420,7 +423,7 @@ class Transaction
      * @return Result\Cancel
      * @throws Error\Api
      * @throws Error\Error
-     * @throws Error\Required\ApiToken    
+     * @throws Error\Required\ApiToken
      */
     public static function cancel(
         $transactionId,
@@ -429,11 +432,11 @@ class Transaction
     {
         $api = new Api\Cancel();
         $api->setTransactionId($transactionId);
-      
+
         if ($entranceCode !== null) {
             $api->setEntranceCode($entranceCode);
         }
-      
+
         $result = $api->doRequest();
 
         return new Result\Cancel($result);
